@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practica 2</title>
+</head>
+
+<body>
+
+    <p><strong>Crear Tabla</strong> </p>
+
+
+    
+    <span>Columnas</span>
+    <input id="numcolumnas" type="number" min="0" placeholder="numero de columnas">
+    <br><br>
+    <span>Filas</span>
+    <input id="numfilas" type="number" min="0" placeholder="numero de filas">
+    <br><br>
+    <input type="button" value="Crear Tabla" onclick="crearTabla()">
+    <br><br>
+
+    <p><strong>Borrar Celda</strong> </p>
+
+   
+    <span>Columna</span>
+    <input id="borrarcolumna" type="number" min="1" placeholder="Posición columna">
+    <br><br>
+    <span>Fila</span>
+    <input id="borrarfila" type="number" min="1" placeholder="Posición Fila">
+    <br><br>
+    <input type="button" value="Borrar Celda" onclick="borrarCelda()">
+    
+    <script>
+
+
+
+        //crear tabla con un boton
+        //INPUTS CON fila y columna
+        //dentro meter nombre columna1, fila1
+
+        //borrar celda con dos input de columna y celda y borrar su contenido
+
+        function crearTabla() {
+
+
+            var body = document.getElementsByTagName("body")[0];
+            var tabla = document.createElement("table");
+
+            tabla.setAttribute("id", "tablita");
+            tabla.setAttribute("border", "4");
+
+            var numCol = document.getElementById("numcolumnas").value;
+            var numFila = document.getElementById("numfilas").value;
+
+            for (var i = 0; i < numFila; i++) {
+
+                var fila = document.createElement("tr");
+
+                for (var j = 0; j < numCol; j++) {
+
+                    var celda = document.createElement("td");
+                    var textoCelda = document.createTextNode("celda en la fila " + (i + 1) + ", columna " + (j + 1));
+                    celda.appendChild(textoCelda);
+                    fila.appendChild(celda);
+                }
+
+
+                tabla.appendChild(fila);
+            }
+
+            body.appendChild(tabla);
+
+
+        }
+
+
+
+
+        function borrarCelda() {
+
+            var borrarCol = document.getElementById("borrarcolumna").value;
+            var borrarFila = document.getElementById("borrarfila").value;
+
+            var borrarFila = document.getElementById("tablita").rows[borrarFila-1].cells[borrarCol-1].textContent = "";
+
+
+
+
+
+        }
+
+
+
+    </script>
+</body>
+
+</html>
