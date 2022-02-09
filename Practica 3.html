@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        #formulario {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+
+        }
+
+        #miForm {
+            background-color: lightgray;
+        }
+
+
+        input:invalid {
+            border-color: rgb(179, 0, 0);
+            border-width: 3px;
+        }
+
+        
+
+        #enviar {
+            text-align: center;
+        }
+
+
+
+
+
+        
+    </style>
+</head>
+
+<body>
+
+
+    <div id="formulario">
+
+        <!-- Los mensajes de los addEventListener hay veces que en Chrome no salen pero en Firefox si-->
+
+        <!--Tanto teléfono como nombre son required, si no se rellenan no te dejarán darle al botón de enviar-->
+        <!--Todos los campos tienen algún tipo de validación ya sea con HTML o con JS-->
+
+        <form id="miForm" name="miForm" onsubmit="return validacion()" action="/action_page.php" method="GET"
+            autocomplete="on">
+
+            <fieldset>
+
+                <legend>Formulario Practica 5</legend>
+                <br>
+
+                <label for="nombre">Nombre </label>
+                <input name="nombre" id="nombre" type="text" required autofocus>
+
+                <br><br>
+
+
+                <label for="apellido">Apellido</label>
+                <input name="apellido" id="apellido" type="text">
+
+                <br><br>
+
+
+                <label for="edad">Edad </label>
+                <input name="edad" min="1" max="150" id="edad" type="number">
+
+                <br><br>
+
+
+                <label id="labelSex" for="sex">Sexo </label>
+                <input name="sex" type="radio"> <span>Hombre</span>
+                <input name="sex" type="radio"> <span>Mujer</span>
+
+                <br><br>
+
+                <label for="mail">Email</label>
+                <input type="email" id="mail" name="mail">
+                <br><br>
+
+
+                <label for="nacimiento">Fecha de Nacimiento</label>
+                <input type="date" id="nacimiento" name="nacimiento" min="1990-01-01" max="2022-01-01">
+                <br><br>
+
+
+                <label for="tel">Teléfono</label>
+                <input name="tel" type="text" minlength="9" maxlength="9" pattern="[0-9]{9}" required>
+                <br><br>
+
+
+                <label for="profesion">Profesion  </label>
+                    <input name="profesion" id="profesion" type="text" pattern="[a-zA-Z]*" placeholder="Solo letras">
+                <br><br>
+
+
+                <fieldset>
+                    <legend id="legIdiomas">Idiomas</legend>
+                    <input type="checkbox" id="english" name="checkbox" value="English">
+                    <label for="english"> English</label><br>
+                    <input type="checkbox" id="spanish" name="checkbox" value="Spanish">
+                    <label for="spanish"> Spanish</label><br>
+                    <input type="checkbox" id="german" name="checkbox" value="German">
+                    <label for="german"> German</label><br>
+                </fieldset>
+
+                <br><br>
+
+
+                <label id="labelCiudad" for="ciudad">Elige ciudad</label>
+                <select name="ciudad" id="ciudad">
+                    <option value="" selected>Sevilla</option>
+                    <option value="madrid">Madrid</option>
+                    <option value="barcelona">Barcelona</option>
+
+                </select>
+
+                <br><br>
+
+                <textarea name="textarea" placeholder="ESCRIBE TU NUMERO FAVORITO"></textarea>
+
+                <br><br>
+
+                <div id="enviar">
+                    <input type="submit" value="ENVIAR">
+                </div id="enviar">
+
+            </fieldset>
+
+
+
+
+        </form>
+    </div>
+
+    <script>
+
+        // Validaciones en tiempo real de profesión y email
+
+
+        //Profesion
+        const profesion = document.getElementById("profesion");
+
+        profesion.addEventListener("keyup", function (event) {
+            if (profesion.validity.patternMismatch) { // le realizo el validity a través del pattern
+                profesion.setCustomValidity("No debe haber numeros en este campo");
+            } else {
+                profesion.setCustomValidity("");
+            }
+        });
+
+
+        //Email
+        const email = document.getElementById("mail");
+
+        email.addEventListener("input", function (event) {
+            if (email.validity.typeMismatch) {
+                email.setCustomValidity("Mete una dirección que tenga @");
+            } else {
+                email.setCustomValidity("");
+            }
+        });
+
+        
+
+
+
+        /*Validaciones Javascript de los demás elementos. Tanto teléfono como nombre piden una validacion previa con el HTML,
+       si no se rellenan no te dejarán darle al botón de enviar */
+
+
+        function validacion() {
+
+            var correcto = true;
+
+
+            //Apellido 
+
+            let apellido = document.forms["miForm"]["apellido"].value;
+
+            if (apellido == "") {
+
+                alert("APELLIDO debe estar relleno")
+
+                document.forms["miForm"]["apellido"].style.borderColor = "red";
+
+                correcto = false;
+
+            }
+
+            //Edad
+
+            let edad = document.forms["miForm"]["edad"].value;
+
+            if (edad == "") {
+
+                alert("EDAD debe estar relleno")
+
+                document.forms["miForm"]["edad"].style.borderColor = "red";
+
+                correcto = false;
+
+            }
+
+
+            //Sexo
+
+            sexo = document.getElementsByName("sex");
+            var checked = false;
+
+
+            for (var i = 0; i < sexo.length; i++) {
+                if (sexo[i].checked) {
+                    checked = true;
+                    break;
+                }
+            }
+
+            if (!checked) {
+                correcto = false;
+                alert("SEXO debe estar marcado")
+                document.getElementById("labelSex").style.color = "red";
+
+            } else {
+                document.getElementById("labelSex").style.color = "black";
+            }
+
+
+            //Idiomas
+
+            idioma = document.getElementsByName("checkbox");
+            var checkedbox = false;
+
+
+            for (var i = 0; i < idioma.length; i++) {
+                if (idioma[i].checked) {
+                    checkedbox = true;
+                    break;
+                }
+            }
+
+            if (!checkedbox) {
+                correcto = false;
+
+                alert("DEBE MARCARSE AL MENOS UN IDIOMA")
+
+                document.getElementById("legIdiomas").style.color = "red";
+
+
+            } else {
+                document.getElementById("legIdiomas").style.color = "black";
+
+            }
+
+
+            //Ciudad
+
+
+            let selec = document.forms["miForm"]["ciudad"].value;
+            if (selec == "") {
+
+                alert("Ciudad debe estar relleno") //Sevilla tiene el valor vacío para que falle si se selecciona
+                document.getElementById("labelCiudad").style.color = "red";
+                correcto = false;
+
+            } else {
+                document.getElementById("labelCiudad").style.color = "black";
+
+            }
+
+            // TextArea
+            let area = document.forms["miForm"]["textarea"].value;
+
+            let expresion = /^[0-9]*$/; // solo numeros,
+
+            if (!area.match(expresion)) {
+
+                alert("El area de texto solo puede tener números")
+                document.getElementsByTagName("textarea")["textarea"].style.borderColor = "red";
+
+
+            }
+
+            return correcto;
+
+        }
+        
+    </script>
+
+
+</body>
+
+</html>
